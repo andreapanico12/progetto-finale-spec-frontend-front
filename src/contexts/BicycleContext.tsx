@@ -13,7 +13,7 @@ export const BicycleProvider = ({ children }: { children: React.ReactNode }) => 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/bicycles')
+    fetch('http://localhost:3001/bicycles')
       .then(res => res.json())
       .then(data => {
         setBicycles(data);
