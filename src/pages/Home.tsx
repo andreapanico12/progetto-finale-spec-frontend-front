@@ -1,14 +1,22 @@
 import { useBicycleContext } from '../contexts/BicycleContext';
 import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import CategoryFilter from '../components/CategoryFilter';
+
 
 function Home() {
 
   const [searchValue, setSearchValue] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const { bicycles, isLoading } = useBicycleContext();
 
-  const filteredBicycles = bicycles.filter((bike) =>
-    bike.title.toLowerCase().includes(searchValue.toLowerCase()))
+  const filteredBicycles = bicycles
+  .filter((bike) =>
+    bike.title.toLowerCase().includes(searchValue.toLowerCase())
+  )
+  .filter((bike) =>
+    selectedCategory === '' ? true : bike.category === selectedCategory
+  );
 
   if (isLoading) {
     return (
@@ -33,7 +41,12 @@ function Home() {
     <h1 className="mb-4">Biciclette disponibili</h1>
 
     <SearchBar onSearchChange={setSearchValue} />
-    
+    <CategoryFilter
+       selectedCategory={selectedCategory}
+       onCategoryChange={setSelectedCategory}
+    />
+
+
     <div className="row">
       {filteredBicycles.map(bike => (
         console.log(bike),
