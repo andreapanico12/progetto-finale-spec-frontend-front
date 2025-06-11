@@ -2,12 +2,15 @@ import { useBicycleContext } from '../contexts/BicycleContext';
 import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import CategoryFilter from '../components/CategoryFilter';
+import SortControl from '../components/SortControl';
 
 
 function Home() {
 
   const [searchValue, setSearchValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [sortField, setSortField] = useState<'title' | 'category'>('title');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const { bicycles, isLoading } = useBicycleContext();
 
   const filteredBicycles = bicycles
@@ -16,7 +19,14 @@ function Home() {
   )
   .filter((bike) =>
     selectedCategory === '' ? true : bike.category === selectedCategory
-  );
+  )
+  .sort((a, b) => {
+    const fieldA = a[sortField].toLowerCase();
+    const fieldB = b[sortField].toLowerCase();
+    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   if (isLoading) {
     return (
@@ -45,6 +55,13 @@ function Home() {
        selectedCategory={selectedCategory}
        onCategoryChange={setSelectedCategory}
     />
+    <SortControl
+      sortField={sortField}
+      sortOrder={sortOrder}
+      onSortFieldChange={setSortField}
+      onSortOrderChange={setSortOrder}
+    />
+
 
 
     <div className="row">
