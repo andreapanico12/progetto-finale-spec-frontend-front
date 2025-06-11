@@ -5,6 +5,7 @@ import Details from "./pages/Details";
 import Favourites from "./pages/Favourites";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
+import ComparePage from "./pages/ComparePage";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/bicycles/:id" element={<Details />} />
+        <Route path="/compare" element={<ComparePage />} />
         <Route path="/favourites" element={<Favourites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

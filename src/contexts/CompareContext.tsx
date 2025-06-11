@@ -1,44 +1,38 @@
 import { createContext, useContext, useState } from 'react';
-import type { Bicycle } from '../types';
 
-// Tipi del contesto
 interface CompareContextType {
-  compared: Bicycle[];
-  addToCompare: (bike: Bicycle) => void;
-  removeFromCompare: (id: number) => void;
-  clearCompare: () => void;
+  selectedId1: number | null;
+  selectedId2: number | null;
+  setSelectedId1: (id: number | null) => void;
+  setSelectedId2: (id: number | null) => void;
+  clearSelection: () => void;
 }
 
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
 
-// Provider
 export const CompareProvider = ({ children }: { children: React.ReactNode }) => {
-  const [compared, setCompared] = useState<Bicycle[]>([]);
+  const [selectedId1, setSelectedId1] = useState<number | null>(null);
+  const [selectedId2, setSelectedId2] = useState<number | null>(null);
 
-  const addToCompare = (bike: Bicycle) => {
-    setCompared(prev => {
-      if (prev.find(b => b.id === bike.id)) return prev; // evita duplicati
-      if (prev.length === 2) return prev; // massimo 2 elementi
-      return [...prev, bike];
-    });
+  const clearSelection = () => {
+    setSelectedId1(null);
+    setSelectedId2(null);
   };
-
-  const removeFromCompare = (id: number) => {
-    setCompared(prev => prev.filter(b => b.id !== id));
-  };
-
-  const clearCompare = () => setCompared([]);
 
   return (
-    <CompareContext.Provider value={{ compared, addToCompare, removeFromCompare, clearCompare }}>
+    <CompareContext.Provider
+      value={{ selectedId1, selectedId2, setSelectedId1, setSelectedId2, clearSelection }}
+    >
       {children}
     </CompareContext.Provider>
   );
 };
 
-// Hook custom per usare il contesto
 export const useCompare = () => {
   const context = useContext(CompareContext);
-  if (!context) throw new Error('useCompare deve essere usato dentro CompareProvider');
+  if (!context) {
+    throw new Error('useCompare deve essere usato dentro CompareProvider');
+  }
   return context;
 };
+export default CompareContext;

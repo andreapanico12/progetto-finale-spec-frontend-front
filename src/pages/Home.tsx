@@ -3,34 +3,29 @@ import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import CategoryFilter from '../components/CategoryFilter';
 import SortControl from '../components/SortControl';
-import { useCompare } from '../contexts/CompareContext';
 import { Link } from 'react-router-dom';
 
-
-
 function Home() {
-
   const [searchValue, setSearchValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortField, setSortField] = useState<'title' | 'category'>('title');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const { bicycles, isLoading } = useBicycleContext();
-  const { compared, addToCompare } = useCompare();
 
   const filteredBicycles = bicycles
-  .filter((bike) =>
-    bike.title.toLowerCase().includes(searchValue.toLowerCase())
-  )
-  .filter((bike) =>
-    selectedCategory === '' ? true : bike.category === selectedCategory
-  )
-  .sort((a, b) => {
-    const fieldA = a[sortField].toLowerCase();
-    const fieldB = b[sortField].toLowerCase();
-    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
+    .filter(bike =>
+      bike.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    .filter(bike =>
+      selectedCategory === '' ? true : bike.category === selectedCategory
+    )
+    .sort((a, b) => {
+      const fieldA = a[sortField].toLowerCase();
+      const fieldB = b[sortField].toLowerCase();
+      if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+      if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
 
   if (isLoading) {
     return (
@@ -40,7 +35,6 @@ function Home() {
       </div>
     );
   }
-
 
   if (filteredBicycles.length === 0) {
     return (
@@ -52,27 +46,22 @@ function Home() {
 
   return (
     <div className="container mt-4">
-    <h1 className="mb-4">Biciclette disponibili</h1>
+      <h1 className="mb-4">Biciclette disponibili</h1>
 
-    <SearchBar onSearchChange={setSearchValue} />
-    <CategoryFilter
-       selectedCategory={selectedCategory}
-       onCategoryChange={setSelectedCategory}
-    />
-    <SortControl
-      sortField={sortField}
-      sortOrder={sortOrder}
-      onSortFieldChange={setSortField}
-      onSortOrderChange={setSortOrder}
-    />
+      <SearchBar onSearchChange={setSearchValue} />
+      <CategoryFilter
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+      <SortControl
+        sortField={sortField}
+        sortOrder={sortOrder}
+        onSortFieldChange={setSortField}
+        onSortOrderChange={setSortOrder}
+      />
 
-
-
-    <div className="row">
-    {filteredBicycles.map(bike => {
-        const isDisabled = compared.length >= 2 || compared.some(b => b.id === bike.id);
-
-        return (
+      <div className="row">
+        {filteredBicycles.map(bike => (
           <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
             <div className="card h-100">
               <div className="card-body d-flex flex-column justify-content-between">
@@ -82,22 +71,13 @@ function Home() {
                   </h5>
                   <h6 className="card-subtitle mb-2 text-muted">{bike.category}</h6>
                 </div>
-                <button
-                  className="btn btn-outline-primary mt-3"
-                  onClick={() => addToCompare(bike)}
-                  disabled={isDisabled}
-                >
-                  {isDisabled ? 'Selezionato' : 'Confronta'}
-                </button>
               </div>
             </div>
           </div>
-  );
-})}
+        ))}
+      </div>
     </div>
-  </div>
-  )
-
+  );
 }
 
-export default Home
+export default Home;
