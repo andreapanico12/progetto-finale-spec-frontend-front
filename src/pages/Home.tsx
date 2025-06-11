@@ -3,6 +3,7 @@ import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import CategoryFilter from '../components/CategoryFilter';
 import SortControl from '../components/SortControl';
+import { useCompare } from '../contexts/CompareContext';
 import { Link } from 'react-router-dom';
 
 
@@ -14,6 +15,7 @@ function Home() {
   const [sortField, setSortField] = useState<'title' | 'category'>('title');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const { bicycles, isLoading } = useBicycleContext();
+  const { compared, addToCompare } = useCompare();
 
   const filteredBicycles = bicycles
   .filter((bike) =>
@@ -67,19 +69,31 @@ function Home() {
 
 
     <div className="row">
-      {filteredBicycles.map(bike => (
-        console.log(bike),
-        <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <div className="card h-100">
-            <div className="card-body">
-            <h5 className="card-title">
-                <Link to={`/bicycles/${bike.id}`}>{bike.title}</Link>
-            </h5>
-              <h6 className="card-subtitle mb-2 text-muted">{bike.category}</h6>
+    {filteredBicycles.map(bike => {
+        const isDisabled = compared.length >= 2 || compared.some(b => b.id === bike.id);
+
+        return (
+          <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div className="card h-100">
+              <div className="card-body d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="card-title">
+                    <Link to={`/bicycles/${bike.id}`}>{bike.title}</Link>
+                  </h5>
+                  <h6 className="card-subtitle mb-2 text-muted">{bike.category}</h6>
+                </div>
+                <button
+                  className="btn btn-outline-primary mt-3"
+                  onClick={() => addToCompare(bike)}
+                  disabled={isDisabled}
+                >
+                  {isDisabled ? 'Selezionato' : 'Confronta'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+  );
+})}
     </div>
   </div>
   )
