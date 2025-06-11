@@ -3,6 +3,8 @@ import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import CategoryFilter from '../components/CategoryFilter';
 import SortControl from '../components/SortControl';
+import { Link } from 'react-router-dom';
+
 
 
 function Home() {
@@ -70,7 +72,9 @@ function Home() {
         <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
           <div className="card h-100">
             <div className="card-body">
-              <h5 className="card-title">{bike.title}</h5>
+            <h5 className="card-title">
+                <Link to={`/bicycles/${bike.id}`}>{bike.title}</Link>
+            </h5>
               <h6 className="card-subtitle mb-2 text-muted">{bike.category}</h6>
             </div>
           </div>
