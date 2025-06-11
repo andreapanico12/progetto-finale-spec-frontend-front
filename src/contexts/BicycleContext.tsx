@@ -33,3 +33,4 @@ export const useBicycleContext = () => {
   if (!context) throw new Error('useBicycleContext must be used within a Provider');
   return context;
 };
+export default BicycleContext;
