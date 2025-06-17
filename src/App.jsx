@@ -4,9 +4,11 @@ import Favorites from './pages/Favorites';
 import Details from './pages/Details'; 
 import Compare from './pages/Compare';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
   return (
+    <>
     <Router>
       <Navbar />
       <Routes>
@@ -16,6 +18,8 @@ function App() {
        <Route path="/favorites" element={<Favorites />} />
       </Routes>
    </Router>
+   <Footer />
+    </>
   )
 }
 

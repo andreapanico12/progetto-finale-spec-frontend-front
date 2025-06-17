@@ -1,3 +1,14 @@
+body {
+  background-color: #212529; 
+  color: #fff;
+}
+
+a {
+  color: #e63946;
+}
+a:hover {
+  color: #ff6b6b;
+}
 
 .hero {
   background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
@@ -26,6 +37,10 @@
 .bg-contrast select:focus {
   border-color: #e63946;
   box-shadow: none;
+}
+
+.navbar{
+  background-color: #2B2B2B;
 }
 
 .navbar .nav-link {

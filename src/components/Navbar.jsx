@@ -3,7 +3,7 @@ import React from 'react';
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4 py-3">
+    <nav className="navbar navbar-expand-lg navbar-dark shadow-sm px-4 py-3">
       <div className="container-fluid">
         <Link className="navbar-brand fw-bold text-uppercase" to="/">
           BikeCompare
