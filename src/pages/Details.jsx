@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 function Details() {
   const { id } = useParams();
   const [bike, setBike] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  
 
   useEffect(() => {
     fetch(`http://localhost:3001/bicycles/${id}`)
@@ -21,6 +24,8 @@ function Details() {
 
   if (isLoading) return <p className="text-center mt-4">Caricamento in corso...</p>;
   if (!bike) return <p className="text-center mt-4">Bicicletta non trovata.</p>;
+
+  const isThisFav = isFavorite(bike.id);
 
   return (
     <>
@@ -40,6 +45,15 @@ function Details() {
     </div>
     <div className='container mt-4'>
     <Link to="/" className="btn btn-secondary mt-3">← Torna alla lista</Link>
+    <button
+      className={`btn ${isThisFav ? 'btn-danger' : 'btn-primary'} mt-3 mx-2`}
+      onClick={() =>
+           isThisFav ? removeFromFavorites(bike.id) : addToFavorites(bike)
+       }
+      >
+      {isThisFav ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}
+</button>
+
     </div>
     
     </>
