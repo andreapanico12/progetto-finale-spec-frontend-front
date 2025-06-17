@@ -4,11 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import App from './App.jsx'
 import { FavoritesProvider } from './contexts/FavoritesContext.jsx';
+import { CompareProvider } from './contexts/CompareContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <FavoritesProvider>
-     <App />
-    </FavoritesProvider>
+    <CompareProvider>
+     <FavoritesProvider>
+       <App />
+     </FavoritesProvider>
+    </CompareProvider>
   </StrictMode>,
 )
