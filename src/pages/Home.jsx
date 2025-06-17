@@ -50,20 +50,32 @@ function Home() {
   }
 
   return (
-    <div className="container mt-4">
-    <h1 className="mb-4">Biciclette disponibili</h1>
+    <>
+    <section className="hero bg-dark text-white py-5 text-center">
+      <div className="container">
+       <h1 className="display-4 fw-bold">Scopri la tua bici ideale</h1>
+      <p className="lead">Confronta modelli, categorie e caratteristiche in pochi clic</p>
+      <a href="#bici" className="btn btn-danger mt-3">Inizia subito</a>
+    </div>
+    </section>
 
-    <SearchBar onSearchChange={setSearchValue} />
-    <CategoryFilter
-      selectedCategory={selectedCategory}
-      onCategoryChange={setSelectedCategory}
-    />
-    <SortControl
-      sortField={sortField}
-      sortOrder={sortOrder}
-      onSortFieldChange={setSortField}
-      onSortOrderChange={setSortOrder}
-    />
+    <section id="bici" className="bg-dark text-white py-5">
+  <div className="container">
+    <h2 className="mb-4">Biciclette disponibili</h2>
+
+    <div className="bg-contrast rounded p-4 mb-4 shadow-sm">
+      <SearchBar onSearchChange={setSearchValue} />
+      <CategoryFilter
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+      <SortControl
+        sortField={sortField}
+        sortOrder={sortOrder}
+        onSortFieldChange={setSortField}
+        onSortOrderChange={setSortOrder}
+      />
+    </div>
 
     <div className="row">
       {filteredBicycles.map((bike) => (
@@ -73,6 +85,9 @@ function Home() {
       ))}
     </div>
   </div>
+</section>
+
+  </>
   );
 }
 
