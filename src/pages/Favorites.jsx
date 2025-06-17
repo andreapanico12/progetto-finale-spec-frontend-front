@@ -2,7 +2,7 @@ import { useFavorites } from '../contexts/FavoritesContext';
 import BicycleCard from '../components/BicycleCard';
 
 function Favorites() {
-  const { favorites } = useFavorites();
+  const { favorites, removeFromFavorites } = useFavorites();
 
   return (
     <div className="container mt-4">
@@ -13,8 +13,14 @@ function Favorites() {
       ) : (
         <div className="row">
           {favorites.map((bike) => (
-            <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div key={bike.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex flex-column">
               <BicycleCard bike={bike} />
+              <button
+                className="btn btn-sm btn-danger mt-2"
+                onClick={() => removeFromFavorites(bike.id)}
+              >
+                Rimuovi dai preferiti
+              </button>
             </div>
           ))}
         </div>
