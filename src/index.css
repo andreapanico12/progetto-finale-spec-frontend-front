@@ -29,7 +29,7 @@ a:hover {
 .bg-contrast input,
 .bg-contrast select {
   background-color: #1e1e1e;
-  color: #fff;
+  color:#cccccc;
   border: 1px solid #444;
 }
 
@@ -37,7 +37,22 @@ a:hover {
 .bg-contrast select:focus {
   border-color: #e63946;
   box-shadow: none;
+  background-color: #1e1e1e !important;
+  color: #cccccc;
 }
+.bg-contrast input::placeholder {
+  color: #cccccc;
+  opacity: 1; 
+}
+
+.bg-contrast input:-ms-input-placeholder {
+  color: #cccccc;
+}
+
+.bg-contrast input::-ms-input-placeholder {
+  color: #cccccc;
+}
+
 
 .navbar{
   background-color: #2B2B2B;
@@ -49,7 +64,7 @@ a:hover {
 }
 
 .navbar .nav-link:hover {
-  color: #e63946 !important; /* rosso stile Lombardo */
+  color: #e63946 !important;
 }
 
 .navbar .navbar-brand {
