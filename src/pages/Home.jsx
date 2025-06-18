@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BicycleCard from '../components/BicycleCard';
 import SearchBar from '../components/SearchBar';
 import CategoryFilter from '../components/CategoryFilter';
 import SortControl from '../components/SortControl';
+import { useBicycles } from '../contexts/BicyclesContext';
 
 function Home() {
-  const [bicycles, setBicycles] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { bicycles, isLoading } = useBicycles();
   const [searchValue, setSearchValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
 
-  useEffect(() => {
-    fetch('http://localhost:3001/bicycles')
-      .then(res => res.json())
-      .then(data => {
-        setBicycles(data);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error('Errore nel fetch:', err);
-        setIsLoading(false);
-      });
-  }, []);
+
 
   const filteredBicycles = bicycles
   .filter((bike) =>

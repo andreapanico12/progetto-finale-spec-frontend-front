@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useCompare } from '../contexts/CompareContext';
 import { useFavorites } from '../contexts/FavoritesContext';
+import { useBicycles } from '../contexts/BicyclesContext';
 
 function Compare() {
-  const [bikes, setBikes] = useState([]);
+  const { bicycles } = useBicycles();
   const [bike1, setBike1] = useState(null);
   const [bike2, setBike2] = useState(null);
   const { selectedId1, selectedId2, setSelectedId1, setSelectedId2, clearSelection } = useCompare();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
-
-  useEffect(() => {
-    fetch('http://localhost:3001/bicycles')
-      .then(res => res.json())
-      .then(data => setBikes(data));
-  }, []);
 
   useEffect(() => {
     if (selectedId1) {
@@ -46,7 +41,7 @@ function Compare() {
               onChange={(e) => setSelectedId1(e.target.value || null)}
             >
               <option value="">Seleziona prima bici</option>
-              {bikes.map(bike => (
+              {bicycles.map(bike => (
                 <option key={bike.id} value={bike.id}>
                   {bike.title}
                 </option>
@@ -61,7 +56,7 @@ function Compare() {
               onChange={(e) => setSelectedId2(e.target.value || null)}
             >
               <option value="">Seleziona seconda bici</option>
-              {bikes.map(bike => (
+              {bicycles.map(bike => (
                 <option key={bike.id} value={bike.id}>
                   {bike.title}
                 </option>
