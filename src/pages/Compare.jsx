@@ -28,8 +28,14 @@ function Compare() {
     }
   }, [selectedId1, selectedId2]);
 
+  const getValidImageUrl = (url) => {
+    if (!url || url.trim() === '' || url.includes('example.com')) {
+      return 'https://placehold.co/600x400';
+    }
+    return url;
+  };
   return (
-    <section className="bg-dark text-white py-5">
+    <section className="text-white py-5">
       <div className="container">
         <h2 className="mb-4 text-center">Confronta due biciclette</h2>
 
@@ -74,19 +80,27 @@ function Compare() {
         <div className="row">
           {[bike1, bike2].filter(Boolean).map((bike, index) => (
             <div className="col-md-6 mb-4" key={bike.id}>
-              <div className="card bg-contrast text-white border-0 rounded-4 shadow-sm h-100">
+              <div className="card bg-contrast text-white border-1 rounded-4 shadow-sm h-100">
                 <div className="card-body">
                   <h4 className="fw-bold">{bike.title}</h4>
-                  <p><strong>Categoria:</strong> {bike.category}</p>
-                  <p><strong>Marca:</strong> {bike.brand}</p>
-                  <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
-                  <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
-                  <p><strong>Dimensione ruote:</strong> {bike.wheelSize}"</p>
-                  <p><strong>Peso:</strong> {bike.weightKg} kg</p>
-                  <p><strong>Elettrica:</strong> {bike.isElectric ? 'Sì' : 'No'}</p>
-                  {bike.imageUrl && (
-                    <img src={bike.imageUrl} alt={bike.title} className="img-fluid my-3 rounded" />
-                  )}
+                  <img
+                    src={getValidImageUrl(bike.imageUrl)}
+                    alt={bike.title}
+                    className="card-img mb-3"
+                  />
+                  <div className='d-flex justify-content-between bg-compare p-3 rounded mb-3'>
+                    <div>
+                      <p><strong>Categoria:</strong> {bike.category}</p>
+                    <p><strong>Marca:</strong> {bike.brand}</p>
+                    <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
+                    <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
+                    </div>
+                    <div>
+                      <p><strong>Dimensione ruote:</strong> {bike.wheelSize}"</p>
+                    <p><strong>Peso:</strong> {bike.weightKg} kg</p>
+                    <p><strong>Elettrica:</strong> {bike.isElectric ? 'Sì' : 'No'}</p>
+                    </div>
+                  </div>    
                   <button
                     className={`btn ${isFavorite(bike.id) ? 'btn-danger' : 'btn-outline-danger'} mt-2`}
                     onClick={() =>
