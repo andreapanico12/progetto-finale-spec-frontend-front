@@ -27,7 +27,7 @@ function Details() {
   const isThisFav = isFavorite(bike.id);
 
   return (
-    <section className="bg-dark text-white py-5">
+    <section className="text-white py-5">
       <div className="container">
         <div className="card bg-contrast text-white shadow-lg border-0 rounded-4 p-4">
           <div className="row g-4 align-items-center">

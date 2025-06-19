@@ -48,7 +48,7 @@ function Home() {
     </div>
     </section>
 
-    <section id="bici" className="bg-dark text-white py-5">
+    <section id="bici" className="text-white py-5">
   <div className="container">
     <h2 className="mb-4">Biciclette disponibili</h2>
 

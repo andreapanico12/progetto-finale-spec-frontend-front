@@ -11,14 +11,17 @@ function App() {
     <>
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-       <Route path="/bicycles/:id" element={<Details />} />
-       <Route path="/compare" element={<Compare />} />
-       <Route path="/favorites" element={<Favorites />} />
-      </Routes>
+      <main className='flex-grow-1'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+         <Route path="/bicycles/:id" element={<Details />} />
+        <Route path="/compare" element={<Compare />} />
+         <Route path="/favorites" element={<Favorites />} />
+        </Routes>
+      </main>
+      <Footer />
    </Router>
-   <Footer />
+   
     </>
   )
 }
