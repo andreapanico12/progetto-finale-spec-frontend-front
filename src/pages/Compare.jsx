@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useCompare } from '../contexts/CompareContext';
 import { useFavorites } from '../contexts/FavoritesContext';
-import { useBicycles } from '../contexts/BicyclesContext';
 
 function Compare() {
-  const { bicycles } = useBicycles();
   const [bike1, setBike1] = useState(null);
   const [bike2, setBike2] = useState(null);
+  const [allBicycles, setAllBicycles] = useState([]);
   const { selectedId1, selectedId2, setSelectedId1, setSelectedId2, clearSelection } = useCompare();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
+  // Fetch completa di tutte le biciclette (ignora ricerca e filtro)
+  useEffect(() => {
+    fetch('http://localhost:3001/bicycles')
+      .then(res => res.json())
+      .then(data => setAllBicycles(data))
+      .catch(err => console.error('Errore nel caricamento biciclette:', err));
+  }, []);
+
+  // Fetch singoli record per confronto
   useEffect(() => {
     if (selectedId1) {
       fetch(`http://localhost:3001/bicycles/${selectedId1}`)
@@ -34,6 +42,7 @@ function Compare() {
     }
     return url;
   };
+
   return (
     <section className="text-white py-5">
       <div className="container">
@@ -47,7 +56,7 @@ function Compare() {
               onChange={(e) => setSelectedId1(e.target.value || null)}
             >
               <option value="">Seleziona prima bici</option>
-              {bicycles.map(bike => (
+              {allBicycles.map(bike => (
                 <option key={bike.id} value={bike.id}>
                   {bike.title}
                 </option>
@@ -62,7 +71,7 @@ function Compare() {
               onChange={(e) => setSelectedId2(e.target.value || null)}
             >
               <option value="">Seleziona seconda bici</option>
-              {bicycles.map(bike => (
+              {allBicycles.map(bike => (
                 <option key={bike.id} value={bike.id}>
                   {bike.title}
                 </option>
@@ -78,7 +87,7 @@ function Compare() {
         </div>
 
         <div className="row">
-          {[bike1, bike2].filter(Boolean).map((bike, index) => (
+          {[bike1, bike2].filter(Boolean).map((bike) => (
             <div className="col-md-6 mb-4" key={bike.id}>
               <div className="card bg-contrast text-white border-1 rounded-4 shadow-sm h-100">
                 <div className="card-body">
@@ -91,14 +100,14 @@ function Compare() {
                   <div className='d-flex justify-content-between bg-compare p-3 rounded mb-3'>
                     <div>
                       <p><strong>Categoria:</strong> {bike.category}</p>
-                    <p><strong>Marca:</strong> {bike.brand}</p>
-                    <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
-                    <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
+                      <p><strong>Marca:</strong> {bike.brand}</p>
+                      <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
+                      <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
                     </div>
                     <div>
                       <p><strong>Dimensione ruote:</strong> {bike.wheelSize}"</p>
-                    <p><strong>Peso:</strong> {bike.weightKg} kg</p>
-                    <p><strong>Elettrica:</strong> {bike.isElectric ? 'Sì' : 'No'}</p>
+                      <p><strong>Peso:</strong> {bike.weightKg} kg</p>
+                      <p><strong>Elettrica:</strong> {bike.isElectric ? 'Sì' : 'No'}</p>
                     </div>
                   </div>    
                   <button
