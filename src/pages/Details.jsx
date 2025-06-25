@@ -52,6 +52,7 @@ function Details() {
               <div className='bg-compare p-3 rounded-3 shadow-sm mt-3'>
                 <p><strong>Categoria:</strong> {bike.category}</p>
                 <p><strong>Marca:</strong> {bike.brand}</p>
+                <p><strong>Prezzo:</strong> {bike.price.toFixed(2)} €</p>
                 <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
                 <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
                 <p><strong>Dimensione ruote:</strong> {bike.wheelSize}"</p>

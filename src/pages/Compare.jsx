@@ -101,10 +101,12 @@ function Compare() {
                     <div>
                       <p><strong>Categoria:</strong> {bike.category}</p>
                       <p><strong>Marca:</strong> {bike.brand}</p>
+                      <p><strong>Prezzo:</strong> {bike.price.toFixed(2)} €</p>
                       <p><strong>Materiale telaio:</strong> {bike.frameMaterial}</p>
-                      <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
+                      
                     </div>
                     <div>
+                      <p><strong>Tipo freni:</strong> {bike.brakeType}</p>
                       <p><strong>Dimensione ruote:</strong> {bike.wheelSize}"</p>
                       <p><strong>Peso:</strong> {bike.weightKg} kg</p>
                       <p><strong>Elettrica:</strong> {bike.isElectric ? 'Sì' : 'No'}</p>
