@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 
 const BicycleContext = createContext();
 
@@ -9,9 +9,9 @@ export const BicycleProvider = ({ children }) => {
   const [searchValue, setSearchValue] = useState('');
   const [categories, setCategories] = useState([]);
   const debounceRef = useRef(null);
-  const scrollPositionRef = useRef(null); // Ref per memorizzare la posizione dello scroll
+  const scrollPositionRef = useRef(null);
 
-  // Fetch iniziale delle categorie
+  // ✅ Fetch iniziale delle categorie (solo una volta)
   useEffect(() => {
     fetch('http://localhost:3001/bicycles')
       .then((res) => res.json())
@@ -24,40 +24,44 @@ export const BicycleProvider = ({ children }) => {
       });
   }, []);
 
-  // Fetch biciclette con debounce su search e filtro categoria
+  // ✅ Funzione fetch con useCallback (ricreata solo se cambia searchValue o selectedCategory)
+  const debouncedFetch = useCallback(() => {
+    const query = [];
+    if (searchValue) query.push(`search=${encodeURIComponent(searchValue)}`);
+    if (selectedCategory) query.push(`category=${encodeURIComponent(selectedCategory)}`);
+    const url = `http://localhost:3001/bicycles${query.length ? '?' + query.join('&') : ''}`;
+
+    setIsLoading(true);
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setBicycles(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error('Errore nel caricamento biciclette:', err);
+        setIsLoading(false);
+      });
+  }, [searchValue, selectedCategory]);
+
+  // ✅ useEffect con debounce applicato a debouncedFetch
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(() => {
-      const query = [];
-      if (searchValue) query.push(`search=${encodeURIComponent(searchValue)}`);
-      if (selectedCategory) query.push(`category=${encodeURIComponent(selectedCategory)}`);
-
-      const url = `http://localhost:3001/bicycles${query.length ? '?' + query.join('&') : ''}`;
-
-      setIsLoading(true);
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          setBicycles(data);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error('Errore nel caricamento biciclette:', err);
-          setIsLoading(false);
-        });
+      debouncedFetch();
     }, 600);
 
     return () => clearTimeout(debounceRef.current);
-  }, [searchValue, selectedCategory]);
+  }, [debouncedFetch]);
 
-  // Scroll alla posizione salvata quando cambia la lista di biciclette
+  // ✅ Scroll automatico alla posizione salvata
   useEffect(() => {
     if (scrollPositionRef.current !== null) {
       setTimeout(() => {
         window.scrollTo({
           top: scrollPositionRef.current,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
         scrollPositionRef.current = null;
       }, 100);
@@ -74,7 +78,7 @@ export const BicycleProvider = ({ children }) => {
         categories,
         searchValue,
         setSearchValue,
-        scrollPositionRef
+        scrollPositionRef,
       }}
     >
       {children}
