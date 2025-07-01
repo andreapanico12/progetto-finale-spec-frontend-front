@@ -1,5 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 
+// CompareContext.jsx
+// Questo contesto gestisce l'ID di due biciclette selezionate e fornisce il metodo per azzerare il confronto.
+ 
 const CompareContext = createContext();
 
 export function CompareProvider({ children }) {

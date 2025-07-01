@@ -6,14 +6,20 @@ import SortControl from '../components/SortControl';
 import { useBicycles } from '../contexts/BicyclesContext';
 
 function Home() {
-  const { bicycles, isLoading } = useBicycles();
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const {
+    bicycles,
+    isLoading,
+    searchValue,
+    setSearchValue,
+    selectedCategory,
+    setSelectedCategory,
+  } = useBicycles();
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
 
 
 
+  // Filtra le biciclette in base al valore di ricerca e alla categoria selezionata
   const filteredBicycles = bicycles
   .filter((bike) =>
     bike.title.toLowerCase().includes(searchValue.toLowerCase())
@@ -21,9 +27,11 @@ function Home() {
   .filter((bike) =>
     selectedCategory === '' ? true : bike.category === selectedCategory
   )
+  // Ordina le biciclette in base al campo e all'ordine selezionati
   .sort((a, b) => {
     const valA = a[sortField].toLowerCase();
     const valB = b[sortField].toLowerCase();
+  // Confronta i valori in base al campo di ordinamento selezionato
     if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
     if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
     return 0;
@@ -53,10 +61,8 @@ function Home() {
     <h2 className="mb-4">Biciclette disponibili</h2>
 
     <div className="bg-contrast rounded p-4 mb-4 shadow-sm">
-      <SearchBar onSearchChange={setSearchValue} />
+      <SearchBar />
       <CategoryFilter
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
       />
       <SortControl
         sortField={sortField}

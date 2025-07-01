@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useFavorites } from '../contexts/FavoritesContext';
 
+// Questa pagina mostra i dettagli di una bicicletta specifica
 function Details() {
+  // useParams è un hook di React Router che permette di accedere ai parametri della route, in questo caso l'id della bicicletta
+
   const { id } = useParams();
   const [bike, setBike] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
+  // Effettua una richiesta per ottenere i dettagli della bicicletta con l'id specificato
   useEffect(() => {
     fetch(`http://localhost:3001/bicycles/${id}`)
       .then(res => res.json())
@@ -24,6 +28,8 @@ function Details() {
   if (isLoading) return <p className="text-center mt-4">Caricamento in corso...</p>;
   if (!bike) return <p className="text-center mt-4">Bicicletta non trovata.</p>;
 
+  // Funzione per verificare se l'URL dell'immagine è valido
+  // Se l'URL è vuoto, contiene solo spazi o include 'example.com', restituisce un'immagine di fallback
   function isValidImageUrl(url) {
     return url && url.trim() !== '' && !url.includes('example.com');
   }
@@ -32,6 +38,7 @@ function Details() {
     ? bike.imageUrl
     : 'https://placehold.co/600x400';
 
+    // Controlla se la bicicletta è nei preferiti
   const isThisFav = isFavorite(bike.id);
 
   return (

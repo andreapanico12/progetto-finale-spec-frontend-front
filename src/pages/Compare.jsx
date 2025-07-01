@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { useCompare } from '../contexts/CompareContext';
 import { useFavorites } from '../contexts/FavoritesContext';
 
+// La pagina Compare.jsx permette di confrontare due biciclette selezionate da un elenco.
+
 function Compare() {
   const [bike1, setBike1] = useState(null);
   const [bike2, setBike2] = useState(null);
   const [allBicycles, setAllBicycles] = useState([]);
+  // Importa gli hook per gestire lo stato di confronto e preferiti
   const { selectedId1, selectedId2, setSelectedId1, setSelectedId2, clearSelection } = useCompare();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
@@ -36,6 +39,8 @@ function Compare() {
     }
   }, [selectedId1, selectedId2]);
 
+  // Funzione per verificare se l'URL dell'immagine è valido
+  // Se l'URL è vuoto, contiene solo spazi o include 'example.com', restituisce un'immagine di fallback
   const getValidImageUrl = (url) => {
     if (!url || url.trim() === '' || url.includes('example.com')) {
       return 'https://placehold.co/600x400';
@@ -87,6 +92,8 @@ function Compare() {
         </div>
 
         <div className="row">
+          
+          {/* Filter(Boolean) la funzione Boolean viene utilizzata come callback, e converte ogni elemento dell'array in un valore booleano, mantenendo solo quelli che restituiscono true  */}
           {[bike1, bike2].filter(Boolean).map((bike) => (
             <div className="col-md-6 mb-4" key={bike.id}>
               <div className="card bg-contrast text-white border-1 rounded-4 shadow-sm h-100">

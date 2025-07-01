@@ -5,6 +5,7 @@ function BicycleCard({ bike }) {
 
   const { isFavorite, removeFromFavorites, addToFavorites } = useFavorites();
 
+  // Gestisce il click sul cuore per aggiungere o rimuovere la bicicletta dai preferiti
   const handleHeartClick = (e) => {
     e.preventDefault();
     isFavorite(bike.id) ? removeFromFavorites(bike.id) : addToFavorites(bike);
@@ -18,11 +19,13 @@ function BicycleCard({ bike }) {
     className="text-decoration-none"
     > 
       <img
+       // se bike.imageUrl è vuoto o contiene solo spazi, usa un'immagine di fallback
         src={
           bike.imageUrl?.trim()
             ? bike.imageUrl
             : 'https://placehold.co/600x400'
         }
+        // se l'immagine non si carica, usa un'immagine di fallback
         onError={(e) => {
           e.target.onerror = null;
           e.target.src = 'https://placehold.co/600x400';
