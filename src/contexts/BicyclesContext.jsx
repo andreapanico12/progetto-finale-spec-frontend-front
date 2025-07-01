@@ -46,7 +46,7 @@ export const BicycleProvider = ({ children }) => {
         console.error('Errore nel caricamento biciclette:', err);
         setIsLoading(false);
       });
-  }, [searchValue, selectedCategory]);
+  }, []);
 
   // useEffect con debounce applicato a debouncedFetch che permette di evitare chiamate API troppo frequenti ma ogni 600ms
   // Utilizza useRef per mantenere il riferimento al timeout tra i render
@@ -65,18 +65,18 @@ export const BicycleProvider = ({ children }) => {
   // Quando le biciclette vengono aggiornate, scrollPositionRef viene utilizzato per scrollare alla posizione salvata, se scrollPositionRef.current è null allora non viene scrollata la pagina
   // scrollPositionRef.current viene resettato a null dopo lo scroll per evitare scroll multipli
   
-  useEffect(() => {
-    if (scrollPositionRef.current !== null) {
-      setTimeout(() => {
-        // scrollTo() è un metodo che permette di scrollare la pagina alla posizione specificata
-        window.scrollTo({
-          top: scrollPositionRef.current,
-          behavior: 'smooth',
-        });
-        scrollPositionRef.current = null;
-      }, 100);
-    }
-  }, [bicycles]);
+  // useEffect(() => {
+  //   if (scrollPositionRef.current !== null) {
+  //     setTimeout(() => {
+  //       // scrollTo() è un metodo che permette di scrollare la pagina alla posizione specificata
+  //       window.scrollTo({
+  //         top: scrollPositionRef.current,
+  //         behavior: 'smooth',
+  //       });
+  //       scrollPositionRef.current = null;
+  //     }, 100);
+  //   }
+  // }, [bicycles]);
 
   return (
     <BicycleContext.Provider
