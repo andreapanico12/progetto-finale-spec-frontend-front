@@ -27,7 +27,7 @@ export const BicycleProvider = ({ children }) => {
       });
   }, []);
 
-  // Funzione fetch con useCallback (ricreata solo se cambia searchValue o selectedCategory)
+  // Funzione fetch con useCallback 
   const debouncedFetch = useCallback(() => {
     const query = [];
   // encodeUriComponent() funzione che viene utilizzata per codificare una stringa come componente URL sostituendo i caratteri speciali con le loro rappresentazioni percentuali codificate.  
@@ -46,7 +46,7 @@ export const BicycleProvider = ({ children }) => {
         console.error('Errore nel caricamento biciclette:', err);
         setIsLoading(false);
       });
-  }, []);
+  }, [searchValue, selectedCategory]);
 
   // useEffect con debounce applicato a debouncedFetch che permette di evitare chiamate API troppo frequenti ma ogni 600ms
   // Utilizza useRef per mantenere il riferimento al timeout tra i render
