@@ -27,7 +27,8 @@ export const BicycleProvider = ({ children }) => {
       });
   }, []);
 
-  // Funzione fetch con useCallback 
+  // Funzione fetch con useCallback che permette di evitare la creazione di una nuova funzione ad ogni render
+  // Questa funzione viene chiamata ogni volta che searchValue o selectedCategory cambiano
   const debouncedFetch = useCallback(() => {
     const query = [];
   // encodeUriComponent() funzione che viene utilizzata per codificare una stringa come componente URL sostituendo i caratteri speciali con le loro rappresentazioni percentuali codificate.  
@@ -65,18 +66,18 @@ export const BicycleProvider = ({ children }) => {
   // Quando le biciclette vengono aggiornate, scrollPositionRef viene utilizzato per scrollare alla posizione salvata, se scrollPositionRef.current è null allora non viene scrollata la pagina
   // scrollPositionRef.current viene resettato a null dopo lo scroll per evitare scroll multipli
   
-  // useEffect(() => {
-  //   if (scrollPositionRef.current !== null) {
-  //     setTimeout(() => {
-  //       // scrollTo() è un metodo che permette di scrollare la pagina alla posizione specificata
-  //       window.scrollTo({
-  //         top: scrollPositionRef.current,
-  //         behavior: 'smooth',
-  //       });
-  //       scrollPositionRef.current = null;
-  //     }, 100);
-  //   }
-  // }, [bicycles]);
+  useEffect(() => {
+    if (scrollPositionRef.current !== null) {
+      setTimeout(() => {
+        // scrollTo() è un metodo che permette di scrollare la pagina alla posizione specificata
+        window.scrollTo({
+          top: scrollPositionRef.current,
+          behavior: 'smooth',
+        });
+        scrollPositionRef.current = null;
+      }, 50);
+    }
+  }, [bicycles]);
 
   return (
     <BicycleContext.Provider
